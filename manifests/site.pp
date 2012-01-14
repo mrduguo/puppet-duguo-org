@@ -10,6 +10,6 @@ node ubuntuserver inherits default {
     info("for ubuntuserver vm")
 }
 
-node duguo.org inherits default {
+node "duguo.org" inherits default {
     info("for duguo.org deployment")
 }
