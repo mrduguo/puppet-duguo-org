@@ -1,7 +1,7 @@
 class helloworld {
    info("hello world from $environment $hostname")
    host{"foo.bar":
-      ip => "127.0.0.6",
+      ip => "127.0.0.7",
    }
    augeas { "sshd_config":
 	  changes => [
