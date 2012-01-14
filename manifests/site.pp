@@ -25,7 +25,7 @@ node base {
 node default inherits base {
     include helloworld::again
 }
-node ubuntuserver inherits default {
+node xubuntuserver inherits default {
     include helloworld::again
     info("for ubuntu server")
 }
