@@ -1,5 +1,5 @@
 class helloworld {
-   info("hello world from $environment $hostname")
+   info("hello world from  $environment $hostname")
    host{"foo.bar":
       ip => "127.0.0.7",
    }
