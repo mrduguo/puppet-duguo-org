@@ -17,6 +17,7 @@ class helloworld::again {
 
 
 node base {
+    include screen
     include helloworld
 }
 
