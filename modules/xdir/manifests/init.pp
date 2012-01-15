@@ -18,6 +18,6 @@ class xdir {
 
 	exec { "install-xdir":
       command => "echo a",
-  	  creates => "$softwarePathUnpack}"
+  	  creates => "${softwarePathUnpack}"
 	}
 }
