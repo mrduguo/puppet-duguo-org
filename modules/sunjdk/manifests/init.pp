@@ -13,7 +13,7 @@ class sunjdk {
       path => "/usr/bin:/usr/sbin:/bin",
   	  command => "apt-get update"
 	}
-	
+
 	
 	exec { "install-sunjdk5":
       path => "/usr/bin:/usr/sbin:/bin",
