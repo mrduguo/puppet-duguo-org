@@ -47,6 +47,6 @@ file { "/home/git/puppet.git/hooks/post-receive":
 
 exec { "setup-git-permission":
     path => "/usr/bin:/usr/sbin:/bin",
-    command => "echo 'git ALL= NOPASSWD: /usr/bin/puppet' >> /etc/sudoers && rm -rf /etc/puppet/* && chown git /etc/puppet",
+    command => "echo 'git ALL= NOPASSWD: /usr/bin/puppet' >> /etc/sudoers && chown git /etc/puppet",
     unless => "grep puppet /etc/sudoers 2>/dev/null"
 }
