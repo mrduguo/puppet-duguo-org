@@ -45,12 +45,7 @@ file { "/home/git/puppet.git/hooks/post-receive":
   require => [Exec["init-git-repo"]],
 }
 
-augeas { "sudojoe":
-  context => "/files/etc/sudoers",
-  changes => [
-    "set spec[user = 'joe']/user joe",
-    "set spec[user = 'joe']/host_group/host ALL",
-    "set spec[user = 'joe']/host_group/command ALL",
-    "set spec[user = 'joe']/host_group/command/runas_user ALL",
-  ],
+exec { "echo 'git ALL= NOPASSWD: /usr/bin/puppet' >> /etc/sudoers":
+    path => "/usr/bin:/usr/sbin:/bin",
+    unless => "grep puppet /etc/sudoers 2>/dev/null"
 }
