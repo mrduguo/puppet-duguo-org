@@ -1,4 +1,7 @@
 #!/bin/bash -ex
+#
+# wget -qO- https://raw.github.com/mrduguo/puppet-duguo-org/master/support/wget-data.sh | /bin/bash
+#
 
 wget -qOpuppet-git-init.pp https://raw.github.com/mrduguo/puppet-duguo-org/master/support/puppet-git-init.pp
 
