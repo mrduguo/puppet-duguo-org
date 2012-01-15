@@ -1,6 +1,7 @@
 
 node base {
     include screen
+    include sunjdk
 }
 
 node default inherits base {
