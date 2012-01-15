@@ -1,3 +1,4 @@
+import "globals.pp"
 
 node base {
     include screen

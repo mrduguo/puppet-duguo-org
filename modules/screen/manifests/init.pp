@@ -11,5 +11,3 @@ class screen {
 		ensure => present,
 	}
 }
-
-# vim: tabstop=3
