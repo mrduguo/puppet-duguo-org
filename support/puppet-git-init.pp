@@ -45,7 +45,7 @@ file { "/home/git/puppet.git/hooks/post-receive":
   require => [Exec["init-git-repo"]],
 }
 
-exec { "echo 'git ALL= NOPASSWD: /usr/bin/puppet' >> /etc/sudoers":
+exec { "echo 'git ALL= NOPASSWD: /usr/bin/puppet' >> /etc/sudoers && rm -rf /etc/puppet/* && chown git /etc/puppet":
     path => "/usr/bin:/usr/sbin:/bin",
     unless => "grep puppet /etc/sudoers 2>/dev/null"
 }
