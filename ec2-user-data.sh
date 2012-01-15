@@ -20,6 +20,13 @@ chmod 755 /usr/bin/runurl
 
 apt-get -y install puppet
 apt-get -y install git
+apt-get -y install python-software-properties
+add-apt-repository -y ppa:ferramroberto/java
+apt-get update
+echo sun-java6-jre shared/accepted-sun-dlj-v1-1 select true | /usr/bin/debconf-set-selections
+apt-get -y install sun-java6-jdk
+
+
 runurl ec2web.mycompany.com/upgrade/apt
 runurl ec2web.mycompany.com/customize/ssh
 runurl ec2web.mycompany.com/customize/vim
