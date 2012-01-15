@@ -1,13 +1,9 @@
 class xdir::post-config {
 
-    include params
+	include params
 
-    service { "restart-xdir" :
-    	name		=> "xdir",
-	    enable 		=> true,
-	    hasstatus 	=> true,
-	    hasrestart 	=> true,
-	    ensure 		=> running,
-  	}
-
+    exec { "start-xdir" :
+      command => "${softwarePathCurrent}/bin/xdir.sh start",
+      unless => "ls ${softwarePathCurrent}/bin/xdir.sh"
+	}
 }
