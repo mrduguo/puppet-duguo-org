@@ -1,6 +1,7 @@
 class xdir {
 
 	include params
+    info("(${xdir::params::softwareHome},${xdir::params::softwareDownloadUrl},${xdir::params::softwareVersion})")
 
 	stage { "pre": before => Stage["main"] }
 	class { "sunjdk" : stage => pre }
@@ -11,7 +12,7 @@ class xdir {
 
 	user { "xdir":
       ensure => "present",
-      home => "${softwareHome}",
+      home => "${xdir::params::softwareHome}",
       shell => "/bin/false",
     }
 
