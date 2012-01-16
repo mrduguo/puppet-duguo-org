@@ -4,6 +4,6 @@ class xdir::pre-config {
 
     exec { "shutdown-xdir" :
       command => "${softwarePathCurrent}/abin/xdir.sh stop",
-      unless => "ls ${softwarePathCurrent}/bbin/xdir.sh"
+      onlyif => "test -f ${softwarePathCurrent}/bbin/xdir.sh",
 	}
 }
