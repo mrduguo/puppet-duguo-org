@@ -12,12 +12,26 @@ class xdir {
 	user { "xdir":
       ensure => "present",
       home => "${softwareHome}",
-      shell => "/bin/falseb",
+      shell => "/bin/false",
+    }
+
+    file {
+      "/opt": ensure => directory, owner => root;
+      "${softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
+      "${softwarePathUnpack}": ensure => directory, owner => xdir,require => User["xdir"];
     }
 
 
-	exec { "install-xdir":
-      command => "echo a",
-  	  creates => "${softwarePathUnpack}"
-	}
+    exec { "install-xdir" :
+        command => "wget -qO- ${softwareDownloadUrl} | tar -xzf - -C ${softwarePathUnpack}",
+        creates => "${softwarePathUnpack}/xdir-dist-bin-${softwareVersion}",
+        require => File["${softwarePathUnpack}"],
+    }
+
+    file {"${softwarePathUnpack}":
+        ensure => directory,
+        owner => xdir,
+        require => Exec["install-xdir"],
+    }
+
 }
