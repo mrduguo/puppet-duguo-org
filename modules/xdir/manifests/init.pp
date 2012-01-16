@@ -12,7 +12,7 @@ class xdir {
 	user { "xdir":
       ensure => "present",
       home => "${softwareHome}",
-      shell => "/bin/false",
+      shell => "/bin/falseb",
     }
 
 
