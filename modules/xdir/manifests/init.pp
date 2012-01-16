@@ -18,19 +18,19 @@ class xdir {
 
     file {
       "/opt": ensure => directory, owner => root;
-      "/opt/xdir": ensure => directory, owner => xdir,require => User["xdir"];
+      "${xdir::params::softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
       "/opt/xdir/dist": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
 
     exec { "install-xdir" :
-        command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C /opt/xdir/dist",
-        creates => "/opt/xdir/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
+        command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwarePathUnpack}",
+        creates => "${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}",
         logoutput => true,
         require => File["/opt/xdir/dist"],
     }
 
-    file {"/opt/xdir/dist/xdir-dist-bin-${xdir::params::softwareVersion}":
+    file {"${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}":
         owner => xdir,
         recurse => true,
         require => Exec["install-xdir"],

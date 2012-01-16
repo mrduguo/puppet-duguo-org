@@ -3,7 +3,7 @@ class xdir::pre-config {
 	include params
 
     exec { "shutdown-xdir" :
-      command => "${softwarePathCurrent}/bin/xdir.sh stop",
-      onlyif => "test -f ${softwarePathCurrent}/bin/xdir.sh",
+      command => "${xdir::params::softwarePathCurrent}/bin/xdir.sh stop",
+      onlyif => "test -f ${xdir::params::softwarePathCurrent}/bin/xdir.sh",
 	}
 }
