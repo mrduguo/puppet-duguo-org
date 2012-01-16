@@ -28,9 +28,9 @@ class xdir {
         require => File["${softwarePathUnpack}"],
     }
 
-    file {"${softwarePathUnpack}":
-        ensure => directory,
+    file {"${softwarePathUnpack}/xdir-dist-bin-${softwareVersion}":
         owner => xdir,
+        recurse => true,
         require => Exec["install-xdir"],
     }
 
