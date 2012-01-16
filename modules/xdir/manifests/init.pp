@@ -18,7 +18,7 @@ class xdir {
     file {
       "/opt": ensure => directory, owner => root;
       "${softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
-      "${softwarePathUnpack}": ensure => directory, owner => xdir,require => User["xdir"]
+      "${softwarePathUnpack}": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
 

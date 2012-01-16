@@ -35,8 +35,10 @@ exec { "init-git-repo":
 }
 
 $postreceive = "#!/bin/bash
+echo "checking out code to /etc/puppet"
 git --work-tree /etc/puppet checkout -f
-sudo puppet apply -v /etc/puppet/manifests/site.pp --modulepath=/etc/puppet/modules
+echo "puppet applying"
+time sudo puppet apply -v /etc/puppet/manifests/site.pp --modulepath=/etc/puppet/modules
 rc=$?
 if [[ $rc != 0 ]] ; then
     echo PUPPET_APPLY_FAILED
