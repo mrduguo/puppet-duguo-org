@@ -23,7 +23,7 @@ class xdir {
 
 
     exec { "install-xdir" :
-        command => "(wget -qO- ${softwareDownloadUrl} | tar -xzf - -C /opt/xdir/dist)",
+        command => "wget -qO- ${softwareDownloadUrl} | tar -xzf - -C /opt/xdir/dist",
         creates => "/opt/xdir/dist/xdir-dist-bin-${softwareVersion}",
         logoutput => true,
         require => File["/opt/xdir/dist"],
