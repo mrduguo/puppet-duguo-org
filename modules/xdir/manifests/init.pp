@@ -37,9 +37,9 @@ class xdir {
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
         require => Exec["install-xdir"];
-        "${xdir::params::softwareHome}/dist/data":
+        "${xdir::params::softwareHome}/dist/datax":
         owner => xdir,
-        target => "${softwarePathData}",
+        target => "${xdir::params::softwareHome}/data",
         ensure => link,
         require => Exec["install-xdir"],
     }
