@@ -30,7 +30,12 @@ class xdir {
         require => File["/opt/xdir/dist"],
     }
 
-    file {"${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}":
+    file {"${xdir::params::softwarePathCurrent}":
+        owner => xdir,
+        target => "${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}",
+        ensure => link,
+        require => Exec["install-xdir"];
+        "${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}":
         owner => xdir,
         recurse => true,
         require => Exec["install-xdir"],
