@@ -20,7 +20,6 @@ class xdir {
       "/opt": ensure => directory, owner => root;
       "${xdir::params::softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
       "${xdir::params::softwareHome}/dist": ensure => directory, owner => xdir,require => User["xdir"];
-      "${xdir::params::softwareHome}/data": ensure => directory, owner => xdir,require => User["xdir"];
       "${xdir::params::softwareHome}/var": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
@@ -32,16 +31,27 @@ class xdir {
         require => File["${xdir::params::softwareHome}/dist"],
     }
 
+
+    exec { "setup-data-folder" :
+        command => "if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi",
+        require => Exec["install-xdir"],
+    }
+
     file {"${xdir::params::softwareHome}/CURRENT":
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
         require => Exec["install-xdir"];
-        "${xdir::params::softwareHome}/dist/datax":
+        "${xdir::params::softwareHome}/CURRENT/var":
+        owner => xdir,
+        target => "${xdir::params::softwareHome}/var",
+        ensure => link,
+        require => Exec["install-xdir"];
+        "${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
-        require => Exec["install-xdir"],
+        require => Exec["setup-data-folder"],
     }
 
 }
