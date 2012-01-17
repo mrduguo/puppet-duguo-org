@@ -41,13 +41,15 @@ class xdir {
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
-        require => Exec["install-xdir"];
-        "${xdir::params::softwareHome}/CURRENT/var":
+        require => Exec["install-xdir"]
+    }
+    file{ "${xdir::params::softwareHome}/CURRENT/var":
         owner => xdir,
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
-        require => Exec["install-xdir"];
-        "${xdir::params::softwareHome}/CURRENT/data":
+        require => Exec["install-xdir"]
+    }
+    file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
