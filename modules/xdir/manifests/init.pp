@@ -31,12 +31,6 @@ class xdir {
         require => File["${xdir::params::softwareHome}/dist"],
     }
 
-
-    exec { "setup-data-folder" :
-        command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
-        require => Exec["download-xdir"],
-    }
-
     file {"${xdir::params::softwareHome}/CURRENT":
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
@@ -48,6 +42,11 @@ class xdir {
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
         require => Exec["download-xdir"]
+    }
+
+    exec { "setup-data-folder" :
+        command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
+        require => File["${xdir::params::softwareHome}/CURRENT"],
     }
     file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
