@@ -32,7 +32,7 @@ class xdir {
         require => File["${xdir::params::softwareHome}/dist"],
     }
 
-    file {"${xdir::params::softwarePathHome}/CURRENT":
+    file {"${xdir::params::softwareHome}/CURRENT":
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
