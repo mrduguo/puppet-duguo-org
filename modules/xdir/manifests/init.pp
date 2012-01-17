@@ -19,7 +19,7 @@ class xdir {
     file {
       "/opt": ensure => directory, owner => root;
       "${xdir::params::softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
-      "/opt/xdir/dist": ensure => directory, owner => xdir,require => User["xdir"],
+      "${xdir::params::softwarePathUnpack}": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
 
