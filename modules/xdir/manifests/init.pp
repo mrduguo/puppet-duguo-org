@@ -19,8 +19,8 @@ class xdir {
     file {
       "/opt": ensure => directory, owner => root;
       "${xdir::params::softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
-      "${xdir::params::softwareHome}/dist": ensure => directory, owner => xdir,require => User["xdir"],
-      "${xdir::params::softwareHome}/data": ensure => directory, owner => xdir,require => User["xdir"],
+      "${xdir::params::softwareHome}/dist": ensure => directory, owner => xdir,require => User["xdir"];
+      "${xdir::params::softwareHome}/data": ensure => directory, owner => xdir,require => User["xdir"];
       "${xdir::params::softwareHome}/var": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
