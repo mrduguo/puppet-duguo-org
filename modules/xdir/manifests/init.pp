@@ -26,18 +26,18 @@ class xdir {
 
 
     exec { "install-xdir" :
-        command => "(wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwarePathUnpack}) || chown -R xdir ${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}",
-        creates => "${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}",
+        command => "(wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwareHome}/dist) || chown -R xdir ${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
+        creates => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         logoutput => true,
-        require => File["/opt/xdir/dist"],
+        require => File["${xdir::params::softwareHome}/dist"],
     }
 
     file {"${xdir::params::softwarePathCurrent}":
         owner => xdir,
-        target => "${xdir::params::softwarePathUnpack}/xdir-dist-bin-${xdir::params::softwareVersion}",
+        target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
         require => Exec["install-xdir"];
-        "${xdir::params::softwarePathCurrent}/data":
+        "${xdir::params::softwareHome}/dist/data":
         owner => xdir,
         target => "${softwarePathData}",
         ensure => link,
