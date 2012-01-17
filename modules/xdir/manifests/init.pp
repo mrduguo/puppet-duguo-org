@@ -24,7 +24,7 @@ class xdir {
     }
 
 
-    exec { "install-xdir" :
+    exec { "download-xdir" :
         command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwareHome}/dist || chown -R xdir ${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         creates => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         logoutput => true,
@@ -33,21 +33,21 @@ class xdir {
 
 
     exec { "setup-data-folder" :
-        command => "if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi",
-        require => Exec["install-xdir"],
+        command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
+        require => Exec["download-xdir"],
     }
 
     file {"${xdir::params::softwareHome}/CURRENT":
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
-        require => Exec["install-xdir"]
+        require => Exec["download-xdir"]
     }
     file{ "${xdir::params::softwareHome}/CURRENT/var":
         owner => xdir,
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
-        require => Exec["install-xdir"]
+        require => Exec["download-xdir"]
     }
     file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
