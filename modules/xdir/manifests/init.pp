@@ -55,4 +55,9 @@ class xdir {
         require => Exec["setup-data-folder"],
     }
 
+	file { "/etc/init.d/xdir":
+		content   => template("xdir/xdir-service.erb"),
+		mode    => 755,
+	}
+
 }

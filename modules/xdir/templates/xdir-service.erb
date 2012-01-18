@@ -1,0 +1,38 @@
+#!/bin/bash
+APP_HOME=<%= xdir::params::softwareHome %>/CURRENT
+
+start_xdir(){
+	nohup $APP_HOME/bin/xdir.sh start >& /dev/null &
+	echo XDir started
+}
+
+ACTION="$1"
+case "$ACTION" in
+    start)
+        start_xdir
+        ;;
+
+    stop)
+        $APP_HOME/bin/xdir.sh stop
+        ;;
+
+    clean)
+        $APP_HOME/bin/xdir.sh stop
+		rm -rf $APP_HOME/var/*
+        ;;
+
+    status)
+        $APP_HOME/bin/xdir.sh status
+        ;;
+
+    restart)
+        $0 clean
+        $0 start
+        ;;
+
+    *)
+    	echo "Usage: $0 {start|stop|status|restart}" >&2
+        exit 3
+        ;;
+esac
+exit 0
