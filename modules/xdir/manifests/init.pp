@@ -44,7 +44,7 @@ class xdir {
     }
 
     exec { "setup-data-folder" :
-        command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
+        command => "/bin/bash -c 'if [ -e ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
         refreshonly => true,
         subscribe => File["${xdir::params::softwareHome}/CURRENT"],
     }
