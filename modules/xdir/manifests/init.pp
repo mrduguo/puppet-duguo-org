@@ -49,6 +49,7 @@ class xdir {
         refreshonly => true,
         subscribe => File["${xdir::params::softwareHome}/CURRENT"],
     }
+
     file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
         target => "${xdir::params::softwareHome}/data",
