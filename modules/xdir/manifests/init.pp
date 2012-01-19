@@ -36,18 +36,19 @@ class xdir {
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
         refreshonly => true,
-        require => Exec["download-xdir"]
+        subscribe => Exec["download-xdir"]
     }
     file{ "${xdir::params::softwareHome}/CURRENT/var":
         owner => xdir,
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
         refreshonly => true,
-        require => Exec["download-xdir"]
+        subscribe => Exec["download-xdir"]
     }
 
     exec { "setup-data-folder" :
         command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
+        refreshonly => true,
         subscribe => File["${xdir::params::softwareHome}/CURRENT"],
     }
     file{"${xdir::params::softwareHome}/CURRENT/data":
@@ -55,7 +56,7 @@ class xdir {
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
         refreshonly => true,
-        require => Exec["setup-data-folder"],
+        subscribe => Exec["setup-data-folder"],
     }
 
 	file { "/etc/init.d/xdir":
