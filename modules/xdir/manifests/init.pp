@@ -35,7 +35,7 @@ class xdir {
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
-        require => Exec["download-xdir"]
+        subscribe => Exec["download-xdir"]
     }
     file{ "${xdir::params::softwareHome}/CURRENT/var":
         owner => xdir,
