@@ -1,5 +1,5 @@
 #!/bin/bash
-APP_HOME=<%= xdir::params::softwareHome %>/CURRENT
+APP_HOME=<%= scope.lookupvar('xdir::params::softwareHome') %>/CURRENT
 
 start_xdir(){
 	nohup $APP_HOME/bin/xdir.sh start >& /dev/null &
