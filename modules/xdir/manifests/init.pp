@@ -23,7 +23,6 @@ class xdir {
       "${xdir::params::softwareHome}/var": ensure => directory, owner => xdir,require => User["xdir"],
     }
 
-
     exec { "download-xdir" :
         command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwareHome}/dist || chown -R xdir ${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         creates => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
