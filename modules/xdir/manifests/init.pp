@@ -52,6 +52,7 @@ class xdir {
 
     file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
+        backup => false,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
         subscribe => Exec["setup-data-folder"],
