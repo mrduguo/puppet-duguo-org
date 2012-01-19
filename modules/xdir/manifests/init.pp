@@ -46,13 +46,13 @@ class xdir {
 
     exec { "setup-data-folder" :
         command => "/bin/bash -c 'if [ -f ${xdir::params::softwareHome}/data ] ; then rm -rf ${xdir::params::softwareHome}/CURRENT/data; else mv ${xdir::params::softwareHome}/CURRENT/data ${xdir::params::softwareHome}/data; fi'",
-        require => File["${xdir::params::softwareHome}/CURRENT"],
+        subscribe => File["${xdir::params::softwareHome}/CURRENT"],
     }
     file{"${xdir::params::softwareHome}/CURRENT/data":
         owner => xdir,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
-        require => Exec["setup-data-folder"],
+        subscribe => Exec["setup-data-folder"],
     }
 
 	file { "/etc/init.d/xdir":

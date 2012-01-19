@@ -101,6 +101,7 @@ run() {
 
     if [ "$ACTION" = "start" ]; then
 	    nohup $FINAL_COMMAND >& /dev/null &
+	    echo "XDir Started"
     else
         $FINAL_COMMAND
     fi
