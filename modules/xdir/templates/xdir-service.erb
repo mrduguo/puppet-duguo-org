@@ -1,28 +1,141 @@
 #!/bin/bash
-APP_HOME=<%= scope.lookupvar('xdir::params::softwareHome') %>/CURRENT
+XDIR_HOME=<%= scope.lookupvar('xdir::params::softwareHome') %>/CURRENT
 
-start_xdir(){
-	nohup $APP_HOME/bin/xdir.sh start >& /dev/null &
-	echo XDir started
+PROGNAME="$0"
+ACTION="$1"
+
+
+warn() {
+    echo "WARN: ${PROGNAME}: $*"
 }
 
-ACTION="$1"
+die() {
+    echo "ERROR: ${PROGNAME}: $*"
+    exit 1
+}
+
+locateConf() {
+	if [ "x$XDIR_CONF" = "x" ]; then
+		XDIR_CONF=$XDIR_HOME/data/conf
+	fi
+	if [ ! -f "$XDIR_CONF/osgi.jvm" ]; then
+		die "XDIR_CONF is not valid: $XDIR_CONF"
+	fi
+}
+
+locateJava() {
+        if [ "x$JAVA_HOME" != "x" ]; then
+            if [ ! -d "$JAVA_HOME" ]; then
+                die "JAVA_HOME is not valid: $JAVA_HOME"
+            fi
+            JAVA="$JAVA_HOME/bin/java"
+        else
+            JAVA="java"
+        fi
+}
+
+
+setupClasspath() {
+    # Add the jars in the boot dir
+    CLASSPATH="$XDIR_HOME/boot"
+    for file in $XDIR_HOME/boot/*.jar
+    do
+        if [ -z "$CLASSPATH" ]; then
+            CLASSPATH="$file"
+        else
+            CLASSPATH="$CLASSPATH:$file"
+        fi
+    done
+}
+
+
+loadXdirBootOpts() {
+	FINAL_COMMAND=
+	while read line; do
+	if [ ! -z "$line" ] && [ ${line:0:1} != "#" ]
+	then
+	    case "$line" in
+		REPLACE_JAVA_CMD)
+		    FINAL_COMMAND="$FINAL_COMMAND $JAVA"
+		    ;;
+		REPLACE_JAVA_CLASSPATH)
+		    FINAL_COMMAND="$FINAL_COMMAND -classpath $CLASSPATH"
+		    ;;
+		REPLACE_XDIR_HOME)
+		    FINAL_COMMAND="$FINAL_COMMAND -Dxdir.dir.home=$XDIR_HOME"
+		    ;;
+		REPLACE_XDIR_CONF)
+		    FINAL_COMMAND="$FINAL_COMMAND -Dxdir.dir.conf=$XDIR_CONF"
+		    ;;
+		REPLACE_XDIR_OPTS)
+		    FINAL_COMMAND="$FINAL_COMMAND $XDIR_OPTS"
+		    ;;
+		REPLACE_XDIR_ARGS)
+		    FINAL_COMMAND="$FINAL_COMMAND $@"
+		    ;;
+		*)
+		    FINAL_COMMAND="$FINAL_COMMAND $line"
+		    ;;
+	    esac
+	fi
+	done <$XDIR_CONF/osgi.jvm
+
+}
+
+
+init(){
+    # Locate the XDir configuration directory
+    locateConf
+
+    # Locate the Java VM to execute
+    locateJava
+}
+
+run() {
+    # Setup boot classpath
+    setupClasspath
+
+    # Load xdir boot options
+    loadXdirBootOpts "$@"
+
+
+    if [ "$ACTION" = "start" ]; then
+	    nohup $FINAL_COMMAND >& /dev/null &
+    else
+        $FINAL_COMMAND
+    fi
+
+    EXIT_CODE="$?"
+}
+
+main() {
+	init
+	# restart server by return status code 5
+	EXIT_CODE=5
+	while [ "$EXIT_CODE" = "5" ]
+	do
+	  run "$@"
+	done
+	exit $EXIT_CODE
+}
+
+
 case "$ACTION" in
     start)
-        start_xdir
+        main "$@"
         ;;
 
     stop)
-        $APP_HOME/bin/xdir.sh stop
+        main "$@"
         ;;
 
     clean)
-        $APP_HOME/bin/xdir.sh stop
-		rm -rf $APP_HOME/var/*
+        main "$@"
+		rm -rf $XDIR_HOME/var/*
         ;;
 
     status)
-        $APP_HOME/bin/xdir.sh status
+        main "$@"
         ;;
 
     restart)
