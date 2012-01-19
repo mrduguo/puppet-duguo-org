@@ -35,12 +35,14 @@ class xdir {
         owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
-        subscribe => Exec["download-xdir"]
+        refreshonly => true,
+        require => Exec["download-xdir"]
     }
     file{ "${xdir::params::softwareHome}/CURRENT/var":
         owner => xdir,
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
+        refreshonly => true,
         require => Exec["download-xdir"]
     }
 
@@ -52,7 +54,8 @@ class xdir {
         owner => xdir,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
-        subscribe => Exec["setup-data-folder"],
+        refreshonly => true,
+        require => Exec["setup-data-folder"],
     }
 
 	file { "/etc/init.d/xdir":
