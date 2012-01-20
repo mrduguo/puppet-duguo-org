@@ -8,6 +8,7 @@ class xdir::pre-config {
 	    rule => '-t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080',
 	}
 
+
 	include iptables
 
     exec { "shutdown-xdir" :
