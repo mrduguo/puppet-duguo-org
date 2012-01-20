@@ -2,7 +2,7 @@ class xdir::pre-config {
 
 	include params
 
-	class { "sunjdk" }
+	include sunjdk
 
 	include iptables
 
