@@ -14,4 +14,5 @@ class xdir::pre-config {
       command => "${xdir::params::softwareHome}/CURRENT/bin/xdir.sh stop",
       onlyif => "test -f ${xdir::params::softwareHome}/CURRENT/bin/xdir.sh",
 	}
+
 }
