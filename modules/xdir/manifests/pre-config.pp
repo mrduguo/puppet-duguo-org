@@ -4,11 +4,11 @@ class xdir::pre-config {
 
 	include sunjdk
 
-	iptables::rule{"foward-port-80-to-8080":
-	    rule => '-t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080',
+	file { "/etc/iptables/rules":
+		content   => template("xdir/iptable-rules.erb"),
 	}
 
-
+    $iptables_config = "file"
 	include iptables
 
     exec { "shutdown-xdir" :
