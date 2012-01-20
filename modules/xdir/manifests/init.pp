@@ -1,10 +1,8 @@
 class xdir {
 
 	include params
-    info("(${xdir::params::softwareHome},${xdir::params::softwareDownloadUrl},${xdir::params::softwareVersion})")
 
 	stage { "pre": before => Stage["main"] }
-	class { "sunjdk" : stage => pre }
 	class { "pre-config" : stage => pre }
 
 	stage { "post": require => Stage["main"] }
