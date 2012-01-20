@@ -11,6 +11,7 @@ class xdir::pre-config {
     $iptables_config = "file"
 	include iptables
 
+
     exec { "shutdown-xdir" :
       command => "${xdir::params::softwareHome}/CURRENT/bin/xdir.sh stop",
       onlyif => "test -f ${xdir::params::softwareHome}/CURRENT/bin/xdir.sh",
