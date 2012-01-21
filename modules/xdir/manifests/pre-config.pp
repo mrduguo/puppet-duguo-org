@@ -4,7 +4,7 @@ class xdir::pre-config {
 
 	include sunjdk
 
-	file { "/etc/iptables/rules":
+	file { "/etc/iptables/rules.v4":
 		content   => template("xdir/iptable-rules.erb"),
 	}
 
