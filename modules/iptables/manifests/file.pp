@@ -18,7 +18,7 @@ class iptables::file {
         owner   => "${iptables::params::configfile_owner}",
         group   => "${iptables::params::configfile_group}",
         ensure  => present,
-        require => Package["iptables"],
+        require => [Package["iptables"],File["/etc/iptables/rules"]],
         notify  => Service["iptables"],
     }
 }
