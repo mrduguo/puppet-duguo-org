@@ -8,7 +8,6 @@ class xdir::pre-config {
 		content   => template("xdir/iptable-rules.erb"),
 	}
 
-    $iptables_config = "file"
 	include iptables
 
 

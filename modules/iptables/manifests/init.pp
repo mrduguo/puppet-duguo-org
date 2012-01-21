@@ -33,11 +33,7 @@ class iptables {
         require    => Package["iptables"],
     }
 
-    # How to manage iptables configuration
-    case $iptables::params::config {
-        "file": { include iptables::file }
-        "concat": { include iptables::concat }
-    }
+    include iptables::file
 
     # Include project specific class if $my_project is set
     if $my_project { include "iptables::${my_project}" }
