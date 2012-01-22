@@ -8,34 +8,26 @@ class xdir {
 	stage { "post": require => Stage["main"] }
 	class { "post-config" : stage => post }
 
-	user { "xdir":
-      ensure => "present",
-      home => "${xdir::params::softwareHome}",
-      shell => "/bin/false",
-    }
-
     file {
-      "/opt": ensure => directory, owner => root;
-      "${xdir::params::softwareHome}": ensure => directory, owner => xdir,require => User["xdir"];
-      "${xdir::params::softwareHome}/dist": ensure => directory, owner => xdir,require => User["xdir"];
-      "${xdir::params::softwareHome}/var": ensure => directory, owner => xdir,require => User["xdir"],
+      "/opt": ensure => directory;
+      "${xdir::params::softwareHome}": ensure => directory;
+      "${xdir::params::softwareHome}/dist": ensure => directory;
+      "${xdir::params::softwareHome}/var": ensure => directory,
     }
 
     exec { "download-xdir" :
-        command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwareHome}/dist || chown -R xdir ${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
+        command => "wget -qO- ${xdir::params::softwareDownloadUrl} | tar -xzf - -C ${xdir::params::softwareHome}/dist",
         creates => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         logoutput => true,
         require => File["${xdir::params::softwareHome}/dist"],
     }
 
     file {"${xdir::params::softwareHome}/CURRENT":
-        owner => xdir,
         target => "${xdir::params::softwareHome}/dist/xdir-dist-bin-${xdir::params::softwareVersion}",
         ensure => link,
         subscribe => Exec["download-xdir"]
     }
     file{ "${xdir::params::softwareHome}/CURRENT/var":
-        owner => xdir,
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
         subscribe => Exec["download-xdir"]
@@ -48,7 +40,6 @@ class xdir {
     }
 
     file{"${xdir::params::softwareHome}/CURRENT/data":
-        owner => xdir,
         backup => false,
         target => "${xdir::params::softwareHome}/data",
         ensure => link,
