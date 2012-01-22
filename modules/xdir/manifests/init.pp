@@ -27,6 +27,7 @@ class xdir {
         ensure => link,
         subscribe => Exec["download-xdir"]
     }
+
     file{ "${xdir::params::softwareHome}/CURRENT/var":
         target => "${xdir::params::softwareHome}/var",
         ensure => link,
