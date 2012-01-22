@@ -50,11 +50,17 @@ class xdir {
 	file { "/etc/init.d/xdir":
 		content   => template("xdir/service.erb"),
 		mode    => 755,
+        subscribe => Exec["setup-data-folder"],
 	}
 
 	file { "/opt/xdir/data/conf/osgi.properties":
 		content   => template("xdir/osgi.properties.erb"),
-		mode    => 755,
+        subscribe => Exec["setup-data-folder"],
+	}
+
+	file { "/opt/xdir/data/conf/local.xml":
+		content   => template("xdir/xdir-http-jetty-override.xml.erb"),
+        subscribe => Exec["setup-data-folder"],
 	}
 
 }
