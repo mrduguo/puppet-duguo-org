@@ -47,7 +47,12 @@ class xdir {
     }
 
 	file { "/etc/init.d/xdir":
-		content   => template("xdir/xdir-service.erb"),
+		content   => template("xdir/service.erb"),
+		mode    => 755,
+	}
+
+	file { "/opt/xdir/data/conf/osgi.properties":
+		content   => template("xdir/osgi.properties.erb"),
 		mode    => 755,
 	}
 
