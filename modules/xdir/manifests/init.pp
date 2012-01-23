@@ -58,8 +58,9 @@ class xdir {
         subscribe => Exec["setup-data-folder"],
 	}
 
-	file { "/opt/xdir/data/conf/xdir-service-http-jetty":
-	    ensure => directory;
+	file {
+	    "/opt/xdir/data/conf/xdir-service-http-jetty":
+	    ensure => directory,
         subscribe => Exec["setup-data-folder"];
         "/opt/xdir/data/conf/xdir-service-http-jetty/local.xml":
         		content   => template("xdir/xdir-http-jetty-override.xml.erb"),
