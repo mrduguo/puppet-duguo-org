@@ -1,7 +1,7 @@
 #!/bin/bash -ex
-# Usage:
+# One line data:
 #
-# wget -qO- https://raw.github.com/mrduguo/puppet-duguo-org/master/support/wget-data.sh | /bin/bash
+# wget -qO- https://raw.github.com/mrduguo/puppet-duguo-org/master/support/ec2-user-data.sh | /bin/bash
 #
 
 apt-get -y install puppet
