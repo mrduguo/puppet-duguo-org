@@ -131,8 +131,9 @@ case "$ACTION" in
         ;;
 
     clean)
-        main "$@"
+        main "stop"
 		rm -rf $XDIR_HOME/var/*
+        main "start"
         ;;
 
     status)
@@ -145,7 +146,7 @@ case "$ACTION" in
         ;;
 
     *)
-    	echo "Usage: $0 {start|stop|status|restart}" >&2
+    	echo "Usage: $0 {start|stop|status|restart|clean}" >&2
         exit 3
         ;;
 esac

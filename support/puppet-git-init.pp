@@ -34,10 +34,8 @@ exec { "init-git-repo":
   require => [File["/home/git/puppet.git"], Package["git"], User["git"]],
 }
 
-$postreceive = "#!/bin/bash
-echo 'checking out code to /etc/puppet'
+$postreceive = "#!/bin/bash -ex
 git --work-tree /etc/puppet checkout -f
-echo 'puppet applying'
 sudo puppet apply -v /etc/puppet/manifests/site.pp --modulepath=/etc/puppet/modules
 "
 
