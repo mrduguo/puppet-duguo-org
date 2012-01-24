@@ -39,13 +39,6 @@ echo 'checking out code to /etc/puppet'
 git --work-tree /etc/puppet checkout -f
 echo 'puppet applying'
 sudo puppet apply -v /etc/puppet/manifests/site.pp --modulepath=/etc/puppet/modules
-rc=$?
-if [[ $rc != 0 ]] ; then
-    echo PUPPET_APPLY_FAILED
-    exit $rc
-else
-    echo PUPPET_APPLY_SUCCESS
-fi
 "
 
 file { "/home/git/puppet.git/hooks/post-receive":
