@@ -1,31 +1,13 @@
 class lamp {
-	package {'php':
-      ensure => present,
-      before => File['/etc/php.ini'],
-    }
 
-    file {'/etc/php.ini':
-      ensure => file,
-    }
+      	exec { "apt-update":
+      	  command     => "/usr/bin/apt-get update",
+      	  refreshonly => true;
+      	}
 
-    package {'httpd':
-      ensure => present,
-    }
+  	include apacheparams
+  	include apache
+	include php
+	include mysql
 
-    service {'httpd':
-      ensure => running,
-      enable => true,
-      require => Package['httpd'],
-      subscribe => File['/etc/php.ini'],
-    }
-
-    package {'mysql-server':
-      ensure => 'present',
-    }
-
-    service {'mysqld':
-      ensure => running,
-      enable => true,
-      require => Package['mysql-server'],
-    }
 }
