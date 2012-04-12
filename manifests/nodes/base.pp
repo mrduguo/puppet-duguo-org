@@ -1,4 +1,4 @@
 node base {
     include screen
-	include sunjdk
+#	include sunjdk
 }
